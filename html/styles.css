@@ -1,0 +1,165 @@
+﻿
+.board {
+}
+
+.colorBar {
+	position: absolute;
+	width: 1200px;
+	height: 80px;
+	z-index: -1;
+	left: -10px;
+	top: -10px;
+}
+
+.switchLang {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	right: 30px;
+	top: 10px;
+}
+
+.backButton {
+	width: 50px;
+	margin-top: 5px;
+}
+
+.prevButton {
+	position: absolute;
+	width: 50px;
+	left: 5px;
+	top: 350px;
+}
+
+.nextButton {
+	position: absolute;
+	width: 50px;
+	left: 1110px;
+	top: 350px;
+}
+
+.itemLetter {
+	background-color: white;
+	position: absolute;
+	z-index: 0;		
+}
+
+.spinner {
+	margin-left: 80px;
+	margin-top: 80px;
+	margin-right: 80px;
+	margin-bottom: 80px;
+}
+
+.spinner-small {
+	margin-left: 80px;
+	margin-top: 10px;
+}
+
+.entry {
+	border-width: 5px;
+	border-style: inset;
+	border-color: darkgray;
+	box-shadow: 5px -4px 4px 2px black;
+	width: 220px;
+	background-color: white;
+	position: absolute;
+	z-index: 0;
+	-webkit-user-select: none;
+	user-select: none;		
+}
+
+.entryImage {
+	width: 70%;
+	margin-top: 10px;
+	margin-left: 35px;
+}
+
+.entryText {
+	font-size:30px;
+	text-align: center;
+	padding: 5px;
+}
+
+.entrySoundIcon {
+}
+
+.entrySound {
+	width: 50px;
+}
+
+.collection {
+	border-width: 2px;
+	border-style: inset;
+	border-color: darkgray;
+	box-shadow: 2px -2px 2px 1px black;
+	width: 230px;
+	position: absolute;
+	z-index: 0;
+	-webkit-user-select: none;
+	user-select: none;	
+	display: inline-block;
+}
+
+.collectionImage {
+	width: 30%;	
+	vertical-align: middle;
+	display: inline-block;	
+}
+
+.collectionText {
+	font-size: 22px;
+	margin-left: 10px;
+	text-align: center;
+	padding: 3px;
+	display: inline-block;	
+}
+
+.theme {
+	border-width: 5px;
+	border-style: inset;
+	border-color: darkgray;
+	box-shadow: 5px -4px 4px 2px black;
+	width: 220px;
+	background-color: white;
+	position: absolute;
+	z-index: 0;
+	-webkit-user-select: none;
+	user-select: none;		
+}
+
+.themeImage {
+	width: 70%;
+	margin-top: 10px;
+	margin-left: 35px;
+}
+
+.themeText {
+	font-size:30px;
+	text-align: center;
+	padding: 5px;
+}
+
+.themeColor-1 {
+	background-color: #ffffff;
+}
+
+.themeColor0 {
+	background-color: #ffffc0;
+}
+
+.themeColor1 {
+	background-color: #c0ffc0;
+}
+
+.themeColor2 {
+	background-color: #c0ffff;
+}
+
+.themeColor3 {
+	background-color: #ffc0c0;
+}
+
+.themeColor4 {
+	background-color: #b17f46;
+}

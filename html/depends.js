@@ -1,0 +1,13 @@
+﻿enyo.depends(
+	"sugar.js",	
+	"util.js",
+	"database.js",
+	"l10n.js",		
+	"audio.js",
+	"item.js",
+	"entry.js",
+	"collection.js",
+	"theme.js",
+	"letter.js",	
+	"app.js"
+);
