@@ -11,7 +11,7 @@ Abcd = {};
 Abcd.context = {
 	screen: null,
 	lang: "fr",
-	upper: false,
+	casevalue: 0,
 };
 Abcd.saveContext = function() {
 	Abcd.sugar.sendMessage(
@@ -27,6 +27,11 @@ Abcd.setLocale = function(texts) {
 	Abcd.letters = Abcd[Abcd.context.lang+"Letters"];
 	if (Abcd.context.screen != null)
 		Abcd.context.screen.setLocale();
+}
+Abcd.setCase = function(casevalue) {
+	Abcd.context.casevalue = casevalue;
+	if (Abcd.context.screen != null)
+		Abcd.context.screen.setCase();
 }
 Abcd.sugar = new Sugar();
 Abcd.sugar.connect("localization", Abcd.setLocale);

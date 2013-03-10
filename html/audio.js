@@ -9,6 +9,9 @@ enyo.kind({
 		src: "", crossorigin: "", preload: "auto",
 		mediagroup: "", loop: false, muted: "", controlsbar: false
 	},
+	events: {
+		onSoundEnded: ""
+	},
 	
 	// Constructor
 	create: function() {
@@ -30,7 +33,8 @@ enyo.kind({
 		if (this.hasNode() != null) {		
 			// Handle sound ended event
 			var audio = this;
-			enyo.dispatcher.listen(audio.hasNode(), "ended", function() {
+			enyo.dispatcher.listen(audio.hasNode(), "ended", function() { 
+				audio.doSoundEnded();
 			});			
 		}
 	},
@@ -107,7 +111,7 @@ enyo.kind({
 	name: "Abcd.Audio",
 	kind: enyo.Control,
 	components: [
-		{ name: "sound", kind: "HTML5.Audio", preload: "auto", autobuffer: true, controlsbar: false, onended: "broadcastEnd" }
+		{ name: "sound", kind: "HTML5.Audio", preload: "auto", autobuffer: true, controlsbar: false, onSoundEnded: "broadcastEnd" }
 	],
 	
 	// Constructor

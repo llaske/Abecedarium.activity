@@ -1,4 +1,9 @@
 ﻿
+@font-face {
+	font-family: Rochester;
+	src: url('css/Rochester-Regular.ttf');
+}
+
 .board {
 }
 
@@ -9,6 +14,14 @@
 	z-index: -1;
 	left: -10px;
 	top: -10px;
+}
+
+.switchCase {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	right: 100px;
+	top: 10px;
 }
 
 .switchLang {
@@ -81,6 +94,19 @@
 	padding: 5px;
 }
 
+.entryText0 {
+	font-size: 30px;
+}
+
+.entryText1 {
+	font-size: 28px;
+}
+
+.entryText2 {
+	font-size: 36px;
+	font-family: Rochester;
+}
+
 .entrySoundIcon {
 }
 
@@ -93,7 +119,7 @@
 	border-style: inset;
 	border-color: darkgray;
 	box-shadow: 2px -2px 2px 1px black;
-	width: 230px;
+	width: 250px;
 	position: absolute;
 	z-index: 0;
 	-webkit-user-select: none;
@@ -108,11 +134,23 @@
 }
 
 .collectionText {
-	font-size: 22px;
 	margin-left: 10px;
 	text-align: center;
 	padding: 3px;
 	display: inline-block;	
+}
+
+.collectionText0 {
+	font-size: 22px;
+}
+
+.collectionText1 {
+	font-size: 18px;
+}
+
+.collectionText2 {
+	font-size: 28px;
+	font-family: Rochester;
 }
 
 .theme {
@@ -135,9 +173,21 @@
 }
 
 .themeText {
-	font-size:30px;
 	text-align: center;
 	padding: 5px;
+}
+
+.themeText0 {
+	font-size: 30px;
+}
+
+.themeText1 {
+	font-size: 28px;
+}
+
+.themeText2 {
+	font-size: 36px;
+	font-family: Rochester;
 }
 
 .themeColor-1 {

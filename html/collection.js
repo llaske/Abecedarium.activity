@@ -38,9 +38,13 @@ enyo.kind({
 		var entry = Abcd.entries[collection.img];
 		var image = "images/database/"+entry.code+".png";
 		var text = __$FC(collection.text);
-		if (Abcd.context.upper)
+		if (Abcd.context.casevalue == 1)
 			text = text.toUpperCase();
 		this.$.itemImage.setAttribute("src", image);
+		this.$.itemText.removeClass("collectionText0");
+		this.$.itemText.removeClass("collectionText1");
+		this.$.itemText.removeClass("collectionText2");
+		this.$.itemText.addClass("collectionText"+Abcd.context.casevalue);		
 		this.$.itemText.setContent(text);
 		this.addClass("themeColor"+collection.theme);
 	}

@@ -28,6 +28,6 @@ enyo.kind({
 	// Card setup
 	letterChanged: function() {
 		this.letter = this.letter.toLowerCase()	
-		this.$.itemImage.setAttribute("src", "images/letters/"+this.letter+".png");
+		this.$.itemImage.setAttribute("src", "images/letters/"+this.letter+Abcd.context.casevalue+".png");
 	}
 });	

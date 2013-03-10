@@ -2,9 +2,9 @@
 
 // Collections size on the screen
 var viewConst = {
-	themes: { x: 20, y: 50, dx: 260},
-	letters: { x: 50, y: 330, dx: 80, dy: 80, line: 12},
-	collections: { x: 20, y: 50, dx: 260, dy: 100, line: 4},
+	themes: { x: 20, y: 70, dx: 260},
+	letters: { x: 50, y: 350, dx: 80, dy: 80, line: 12},
+	collections: { x: 20, y: 50, dx: 280, dy: 100, line: 4},
 	entries: { x: 70, y: 50, dx: 260, dy: 250, line: 4, screen: 8}
 };
 
@@ -17,6 +17,9 @@ enyo.kind({
 	components: [
 		{components: [
 			{name: "colorBar", classes: "colorBar"},
+			{name: "switchToUpper", kind: "Image", src: "images/case0.png", ontap: "localUpper", classes: "switchCase"},			
+			{name: "switchToScript", kind: "Image", src: "images/case1.png", showing: false, ontap: "localScript", classes: "switchCase"},			
+			{name: "switchToLower", kind: "Image", src: "images/case2.png", showing: false, ontap: "localLower", classes: "switchCase"},			
 			{name: "switchToFrench", kind: "Image", src: "images/us.png", showing: false, ontap: "localFrench", classes: "switchLang"},
 			{name: "switchToEnglish", kind: "Image", src: "images/fr.png", ontap: "localEnglish", classes: "switchLang"}
 		]},
@@ -36,6 +39,7 @@ enyo.kind({
 		Abcd.context.screen = this;
 		this.theme = this.collection = this.entry = -1;
 		this.collections = [];
+		this.playing = null;
 	},
 	
 	// Localization changed
@@ -54,6 +58,17 @@ enyo.kind({
 		enyo.forEach(this.$.box.getControls(), function(entry) {
 			entry.setLocale();
 		});	
+	},
+	
+	// Case changed
+	setCase: function() {
+		// Redraw entry
+		enyo.forEach(this.$.box.getControls(), function(entry) {
+			if (entry.kind == 'Abcd.Letter')
+				entry.letterChanged();
+			else
+				entry.indexChanged();
+		});		
 	},
 	
 	// Display themes and letters
@@ -156,7 +171,7 @@ enyo.kind({
 		this.$.back.show();
 		length = this.collections.length;
 		for (var i = position ; i < length ; i++) {
-			this.$.box.createComponent({ kind: "Abcd.Entry", index:this.collections[i], x: x, y: y, ontap: "play"}, {owner: this}).render();
+			this.$.box.createComponent({ kind: "Abcd.Entry", index:this.collections[i], x: x, y: y, ontap: "play", onEntrySoundEnded: "soundEnd"}, {owner: this}).render();
 			x = x + viewConst.entries.dx;
 			if (++count % viewConst.entries.line == 0) {
 				y = y + viewConst.entries.dy;
@@ -220,8 +235,37 @@ enyo.kind({
 		Abcd.setLocale(Abcd.frTexts);
 	},
 	
+	// Change current case
+	localUpper: function() {
+		this.$.switchToLower.hide();
+		this.$.switchToUpper.hide();	
+		this.$.switchToScript.show();	
+		Abcd.setCase(1);
+	},
+	
+	localLower: function() {
+		this.$.switchToLower.hide();
+		this.$.switchToUpper.show();	
+		this.$.switchToScript.hide();	
+		Abcd.setCase(0);
+	},
+	
+	localScript: function() {
+		this.$.switchToLower.show();
+		this.$.switchToUpper.hide();	
+		this.$.switchToScript.hide();	
+		Abcd.setCase(2);
+	},
+	
 	// Play entry sound
 	play: function(inSender, inObject) {
+		if (this.playing != null)
+			this.playing.abort();	
+		this.playing = inSender;
 		inSender.play(Abcd.sound);
+	},
+	
+	soundEnd: function(inSender, inObject) {
+		this.playing = null;
 	}
 });
