@@ -17,6 +17,8 @@ enyo.kind({
 	components: [
 		{components: [
 			{name: "colorBar", classes: "colorBar"},
+			{name: "startSlideshow", kind: "Image", src: "images/slideshow.png", showing: false, ontap: "startSlideshow", classes: "slideshow"},
+			{name: "stopSlideshow", kind: "Image", src: "images/pause.png", showing: false, ontap: "stopSlideshow", classes: "slideshow"},
 			{name: "switchToUpper", kind: "Image", src: "images/case0.png", ontap: "localUpper", classes: "switchCase"},			
 			{name: "switchToScript", kind: "Image", src: "images/case1.png", showing: false, ontap: "localScript", classes: "switchCase"},			
 			{name: "switchToLower", kind: "Image", src: "images/case2.png", showing: false, ontap: "localLower", classes: "switchCase"},			
@@ -40,6 +42,7 @@ enyo.kind({
 		this.theme = this.collection = this.entry = -1;
 		this.collections = [];
 		this.playing = null;
+		this.slideshowIndex = -1;
 	},
 	
 	// Localization changed
@@ -119,6 +122,8 @@ enyo.kind({
 		this.$.back.show();
 		this.$.prev.hide();
 		this.$.next.hide();
+		this.$.startSlideshow.hide();
+		this.$.stopSlideshow.hide();		
 		this.$.colorBar.removeClass("themeColor-1");		
 		this.$.colorBar.addClass("themeColor"+this.theme);		
 		for (var i = 0 ; i < length ; i++) {
@@ -169,6 +174,8 @@ enyo.kind({
 		var count = 0;
 		this.cleanBox();
 		this.$.back.show();
+		this.$.startSlideshow.show();
+		this.$.stopSlideshow.hide();		
 		length = this.collections.length;
 		for (var i = position ; i < length ; i++) {
 			this.$.box.createComponent({ kind: "Abcd.Entry", index:this.collections[i], x: x, y: y, ontap: "play", onEntrySoundEnded: "soundEnd"}, {owner: this}).render();
@@ -257,6 +264,21 @@ enyo.kind({
 		Abcd.setCase(2);
 	},
 	
+	// Slideshow handling
+	startSlideshow: function(inSender, inObject) {
+		this.slideshowIndex = 0;
+		this.$.startSlideshow.hide();
+		this.$.stopSlideshow.show();
+		var first = this.$.box.getControls()[this.slideshowIndex];		
+		this.play(first);
+	},
+
+	stopSlideshow: function(inSender, inObject) {
+		this.slideshowIndex = -1;
+		this.$.startSlideshow.show();
+		this.$.stopSlideshow.hide();		
+	},
+		
 	// Play entry sound
 	play: function(inSender, inObject) {
 		if (this.playing != null)
@@ -267,5 +289,12 @@ enyo.kind({
 	
 	soundEnd: function(inSender, inObject) {
 		this.playing = null;
+		if (this.slideshowIndex != -1) {
+			var next = this.$.box.getControls()[++this.slideshowIndex];
+			if (next !== undefined)
+				this.play(next);
+			else
+				this.stopSlideshow();
+		}
 	}
 });

@@ -16,6 +16,14 @@
 	top: -10px;
 }
 
+.slideshow {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	left: 560px;
+	top: 10px;
+}
+
 .switchCase {
 	position: absolute;
 	width: 50px;
