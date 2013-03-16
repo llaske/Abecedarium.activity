@@ -9,5 +9,6 @@
 	"collection.js",
 	"theme.js",
 	"letter.js",	
+	"learn.js",
 	"app.js"
 );

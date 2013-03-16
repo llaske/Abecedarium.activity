@@ -1,11 +1,9 @@
 ﻿// Utility functions
 
-// Force Enyo to process ondragover event
-document.ondragover = enyo.dispatch;
-
 
 // Namespace
 Abcd = {};
+
 
 // Game context handling
 Abcd.context = {
@@ -40,4 +38,13 @@ Abcd.sugar.connect("load-context", Abcd.loadContext);
 Abcd.log = function(msg) {
 	Abcd.sugar.sendMessage("console-message", msg);
 	console.log(msg);
+};
+
+
+// Home handling
+Abcd.goHome = function() {
+	if (Abcd.context.home != null) {
+		Abcd.context.home.renderInto(document.getElementById("body"));
+		Abcd.context.home.playTheme();
+	}
 };

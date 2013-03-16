@@ -4,12 +4,51 @@
 	src: url('css/Rochester-Regular.ttf');
 }
 
+.logo {
+	margin-top: 200px;
+	margin-left: 270px;
+}
+
+.instrument {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+}
+
+.letter {
+	position: absolute;
+	left: 150px;
+	top: 50px;
+	font-size: 44px;
+}
+
+.learnButton {
+	margin-top: 50px;
+	margin-left: 300px;
+}
+
+.playButton {
+	margin-top: 50px;
+	margin-left: 150px;
+}
+
+.buildButton {
+	margin-top: 50px;
+	margin-left: 150px;
+}
+
+.creditButton {
+	position: absolute;
+	top: 50px;
+	right: 50px;
+}
+
 .board {
 }
 
 .colorBar {
 	position: absolute;
-	width: 1200px;
+	width: 1210px;
 	height: 80px;
 	z-index: -1;
 	left: -10px;
@@ -43,6 +82,14 @@
 .backButton {
 	width: 50px;
 	margin-top: 5px;
+}
+
+.pageCount {
+	font-size: 26px;
+	position: absolute;
+	left: 565px;
+	top: 75px;	
+	text-align: center;
 }
 
 .prevButton {
