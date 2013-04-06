@@ -29,5 +29,10 @@ enyo.kind({
 	letterChanged: function() {
 		this.letter = this.letter.toLowerCase()	
 		this.$.itemImage.setAttribute("src", "images/letters/"+this.letter+Abcd.context.casevalue+".png");
-	}
+	},
+	
+	// Play sound for this letter
+	play: function(media) {	
+		media.play("audio/"+Abcd.context.lang+"/database/upper_"+this.letter.toUpperCase());
+	}	
 });	

@@ -2,7 +2,7 @@
 enyo.kind({
 	name: "Abcd.Item",
 	kind: enyo.Control,
-	published: { x: 0, y: 0, z: 0 },
+	published: { x: -1, y: -1, z: -1 },
 	
 	// Constructor
 	create: function() {
@@ -19,17 +19,17 @@ enyo.kind({
 	
 	// Coordinate setup
 	xChanged: function() {
-		this.applyStyle("margin-left", this.x+"px");
+		if (this.x != -1) this.applyStyle("margin-left", this.x+"px");
 	},
 	
 	// Coordinate setup
 	yChanged: function() {
-		this.applyStyle("margin-top", this.y+"px");
+		if (this.y != -1) this.applyStyle("margin-top", this.y+"px");
 	},
 	
 	// Coordinate setup
-	zChanged: function() {
-		this.applyStyle("z-index", this.z);
+	zChanged: function() {	
+		if (this.z != -1) this.applyStyle("z-index", this.z);
 	},
 	
 	// Change position

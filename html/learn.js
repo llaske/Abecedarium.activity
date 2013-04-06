@@ -1,12 +1,8 @@
 ﻿
 
 // Collections size on the screen
-var viewConst = {
-	themes: { x: 60, y: 70, dx: 260},
-	letters: { x: 90, y: 350, dx: 80, dy: 80, line: 12},
-	collections: { x: 30, y: 50, dx: 280, dy: 100, line: 4},
-	entries: { x: 70, y: 50, dx: 260, dy: 250, line: 4, screen: 8}
-};
+var entriesByScreen = 8;
+
 
 
 // Learn app class
@@ -17,14 +13,11 @@ enyo.kind({
 	components: [
 		{components: [
 			{name: "colorBar", classes: "colorBar"},
-			{name: "home", kind: "Image", src: "images/home.png", classes: "backButton", ontap: "goHome"},			
+			{name: "home", kind: "Abcd.HomeButton"},
 			{name: "startSlideshow", kind: "Image", src: "images/slideshow.png", showing: false, ontap: "startSlideshow", classes: "slideshow"},
 			{name: "stopSlideshow", kind: "Image", src: "images/pause.png", showing: false, ontap: "stopSlideshow", classes: "slideshow"},
-			{name: "switchToUpper", kind: "Image", src: "images/case0.png", ontap: "localUpper", classes: "switchCase"},			
-			{name: "switchToScript", kind: "Image", src: "images/case1.png", showing: false, ontap: "localScript", classes: "switchCase"},			
-			{name: "switchToLower", kind: "Image", src: "images/case2.png", showing: false, ontap: "localLower", classes: "switchCase"},			
-			{name: "switchToFrench", kind: "Image", src: "images/us.png", showing: false, ontap: "localFrench", classes: "switchLang"},
-			{name: "switchToEnglish", kind: "Image", src: "images/fr.png", ontap: "localEnglish", classes: "switchLang"}
+			{kind: "Abcd.CaseButton"},
+			{kind: "Abcd.LanguageButton"}
 		]},
 		{components: [
 			{name: "pageCount", content: "-/-", classes: "pageCount", showing: false},
@@ -80,38 +73,23 @@ enyo.kind({
 		// Display themes
 		this.theme = -1;
 		var length = Abcd.themes.length;
-		var x = viewConst.themes.x;
-		var y = viewConst.themes.y;
 		this.cleanBox();
-		this.$.home.show();
-		this.$.back.hide();
-		this.$.prev.hide();
-		this.$.next.hide();
-		this.$.pageCount.hide();
+		this.$.box.addClass("box-4-theme");
+		Abcd.changeVisibility(this, {home: true, back: false, prev: false, next: false, pageCount: false});
 		this.$.colorBar.addClass("themeColor"+this.theme);
 		for (var i = 0 ; i < length ; i++) {
 			this.$.box.createComponent(
-				{ kind: "Abcd.Theme", index: i, x: x, y: y, ontap: "displayCollections" },
+				{ kind: "Abcd.Theme", index: i, ontap: "displayCollections" },
 				{ owner: this }
 			).render();
-			x = x + viewConst.themes.dx;
 		}	
 		
 		// Display letters
-		x = viewConst.letters.x;
-		y = viewConst.letters.y;
-		var count = 0;
 		for (var i = 0 ; i < 26 ; i++) {
 			this.$.box.createComponent(
-				{ kind: "Abcd.Letter", x: x, y: y, letter: String.fromCharCode(65+i), ontap: "displayLetters" },
+				{ kind: "Abcd.Letter", letter: String.fromCharCode(65+i), ontap: "displayLetters" },
 				{ owner: this }
-			).render();
-			x = x + viewConst.letters.dx;
-			if (++count % viewConst.letters.line == 0) {
-				y = y + viewConst.letters.dy;
-				x = viewConst.letters.x;
-				if ( i == 23 ) x = x + (viewConst.letters.dx * 5);
-			}			
+			).render();			
 		}
 	},
 	
@@ -119,33 +97,22 @@ enyo.kind({
 	displayCollections: function(inSender, inEvent) {
 		this.theme = inSender.index;	
 		var length = Abcd.collections.length;
-		var x = viewConst.collections.x;
-		var y = viewConst.collections.y;
-		var count = 0;
 		this.cleanBox();
-		this.$.home.hide();		
-		this.$.back.show();
-		this.$.prev.hide();
-		this.$.next.hide();
-		this.$.pageCount.hide();		
-		this.$.startSlideshow.hide();
-		this.$.stopSlideshow.hide();		
+		Abcd.changeVisibility(this, {home: false, back: true, prev: false, next: false, pageCount: false, startSlideshow: false, stopSlideshow: false});
 		this.$.colorBar.removeClass("themeColor-1");		
-		this.$.colorBar.addClass("themeColor"+this.theme);		
+		this.$.colorBar.addClass("themeColor"+this.theme);
+		this.$.box.removeClass("box-4-theme");
+		this.$.box.addClass("box-4-collection");
 		for (var i = 0 ; i < length ; i++) {
 			if (Abcd.collections[i].theme != this.theme) continue;
-			this.$.box.createComponent({ kind: "Abcd.Collection", index: i, x: x, y: y, ontap: "displayEntries"}, {owner: this}).render();
-			x = x + viewConst.collections.dx;
-			if (++count % viewConst.collections.line == 0) {
-				y = y + viewConst.collections.dy;
-				x = viewConst.collections.x;
-			}
+			this.$.box.createComponent({ kind: "Abcd.Collection", index: i, ontap: "displayEntries"}, {owner: this}).render();
 		}
 	},
 	
 	// Display entries in a collection
 	displayEntries: function(inSender, inEvent) {
 		// Get items in collection
+		this.$.box.removeClass("box-4-collection");		
 		var index = inSender.index;		
 		this.collection = Abcd.collections[index];
 		this.collections = [];
@@ -162,6 +129,9 @@ enyo.kind({
 		
 	// Display entries from a letter
 	displayLetters: function(inSender, inEvent) {
+		// Play letter sound
+		inSender.play(Abcd.sound);
+		
 		// Get items with this letters
 		if (Abcd.letters[inSender.letter] === undefined)
 			return;
@@ -170,32 +140,28 @@ enyo.kind({
 
 		// Display it
 		this.theme = 4;
-		this.$.colorBar.addClass("themeColor"+this.theme);		
+		this.$.colorBar.addClass("themeColor"+this.theme);
+		this.$.box.removeClass("box-4-theme");		
 		this.displayEntriesFrom(0);
 	},	
 	
 	displayEntriesFrom: function(position) {
-		var x = viewConst.entries.x;
-		var y = viewConst.entries.y;
-		var count = 0;
+		// Prepare header
 		this.cleanBox();
-		this.$.home.hide();		
-		this.$.back.show();
-		this.$.startSlideshow.show();
-		this.$.stopSlideshow.hide();
-		this.$.pageCount.show();		
+		this.$.box.addClass("box-4-entry");
+		Abcd.changeVisibility(this, {home: false, back: true, pageCount: true, startSlideshow: true, stopSlideshow: false});
+		
+		// Draw N entries
 		length = this.collections.length;
+		var count = 0;
 		for (var i = position ; i < length ; i++) {
-			this.$.box.createComponent({ kind: "Abcd.Entry", index:this.collections[i], x: x, y: y, ontap: "play", onEntrySoundEnded: "soundEnd"}, {owner: this}).render();
-			x = x + viewConst.entries.dx;
-			if (++count % viewConst.entries.line == 0) {
-				y = y + viewConst.entries.dy;
-				x = viewConst.entries.x;
-			}
-			this.entry = i;			
-			if (count == viewConst.entries.screen)
+			this.$.box.createComponent({ kind: "Abcd.Entry", index:this.collections[i], ontap: "play", onEntrySoundEnded: "soundEnd"}, {owner: this}).render();
+			this.entry = i;		
+			if (++count == entriesByScreen)
 				break;
 		}	
+		
+		// Change button visibility and counter
 		if (position != 0) 
 			this.$.prev.show();
 		else
@@ -204,7 +170,7 @@ enyo.kind({
 			this.$.next.show();	
 		else
 			this.$.next.hide();	
-		this.$.pageCount.setContent(Math.ceil(i/viewConst.entries.screen)+"/"+Math.ceil(length/viewConst.entries.screen));
+		this.$.pageCount.setContent(Math.ceil(i/entriesByScreen)+"/"+Math.ceil(length/entriesByScreen));
 	},
 	
 	displayNextEntries: function() {
@@ -214,16 +180,18 @@ enyo.kind({
 	},
 	
 	displayPrevEntries: function() {
-		this.displayEntriesFrom(Math.max(0,this.entry-viewConst.entries.screen-this.entry%viewConst.entries.screen));
+		this.displayEntriesFrom(Math.max(0,this.entry-entriesByScreen-this.entry%entriesByScreen));
 	},
 	
 	backTaped: function() {
 		var current = this.$.box.getControls()[0];
 		if (current.kind == "Abcd.Entry" && this.collection.kind === undefined) {
 			this.displayCollections({index: this.theme});
+			this.$.box.removeClass("box-4-entry");
 			return;
 		}
-		this.$.colorBar.removeClass("themeColor"+this.theme);		
+		this.$.colorBar.removeClass("themeColor"+this.theme);
+		this.$.box.removeClass("box-4-collection");
 		this.displayThemes();	
 	},
 	
@@ -238,54 +206,17 @@ enyo.kind({
 		}	
 	},
 	
-	// Change current language
-	localEnglish: function() {
-		this.$.switchToEnglish.hide();
-		this.$.switchToFrench.show();
-		Abcd.setLocale(Abcd.enTexts);
-	},
-	
-	localFrench: function() {
-		this.$.switchToEnglish.show();
-		this.$.switchToFrench.hide();
-		Abcd.setLocale(Abcd.frTexts);
-	},
-	
-	// Change current case
-	localUpper: function() {
-		this.$.switchToLower.hide();
-		this.$.switchToUpper.hide();	
-		this.$.switchToScript.show();	
-		Abcd.setCase(1);
-	},
-	
-	localLower: function() {
-		this.$.switchToLower.hide();
-		this.$.switchToUpper.show();	
-		this.$.switchToScript.hide();	
-		Abcd.setCase(0);
-	},
-	
-	localScript: function() {
-		this.$.switchToLower.show();
-		this.$.switchToUpper.hide();	
-		this.$.switchToScript.hide();	
-		Abcd.setCase(2);
-	},
-	
 	// Slideshow handling
 	startSlideshow: function(inSender, inObject) {
 		this.slideshowIndex = 0;
-		this.$.startSlideshow.hide();
-		this.$.stopSlideshow.show();
+		Abcd.changeVisibility(this, {startSlideshow: false, stopSlideshow: true});
 		var first = this.$.box.getControls()[this.slideshowIndex];		
 		this.play(first);
 	},
 
 	stopSlideshow: function(inSender, inObject) {
 		this.slideshowIndex = -1;
-		this.$.startSlideshow.show();
-		this.$.stopSlideshow.hide();		
+		Abcd.changeVisibility(this, {startSlideshow: true, stopSlideshow: false});		
 	},
 		
 	// Play entry sound
@@ -305,10 +236,5 @@ enyo.kind({
 			else
 				this.stopSlideshow();
 		}
-	},
-	
-	// Go back home
-	goHome: function() {
-		Abcd.goHome();
 	}
 });

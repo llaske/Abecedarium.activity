@@ -38,12 +38,17 @@ enyo.kind({
 		Abcd.sound.play(soundThemes[this.soundindex]);
 	},
 	
-	// Play learn game
+	// Play games
 	learnGame: function(e, s) {
 		Abcd.sound.pause();	
 		Abcd.context.screen = new Abcd.Learn().renderInto(document.getElementById("body"));	
 	},
 	
+	playGame: function(e, s) {
+		Abcd.sound.pause();	
+		Abcd.context.screen = new Abcd.Play().renderInto(document.getElementById("body"));	
+	},
+		
 	// Sound ended, play next instrument
 	endOfSound: function(e, s) {
 		if (s == soundThemes[this.soundindex])

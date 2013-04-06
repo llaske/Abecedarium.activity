@@ -2,13 +2,15 @@
 	"sugar.js",	
 	"util.js",
 	"database.js",
-	"l10n.js",		
+	"l10n.js",
 	"audio.js",
 	"item.js",
 	"entry.js",
 	"collection.js",
 	"theme.js",
-	"letter.js",	
+	"letter.js",
+	"buttons.js",
 	"learn.js",
+	"play.js",
 	"app.js"
 );

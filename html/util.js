@@ -48,3 +48,16 @@ Abcd.goHome = function() {
 		Abcd.context.home.playTheme();
 	}
 };
+
+
+//--- Utilities
+
+// Change visibility of a set of controls
+Abcd.changeVisibility = function(object, items) {
+	for(var item in items) {
+		if (items[item])
+			object.$[item].show();
+		else
+			object.$[item].hide();
+	}
+}
