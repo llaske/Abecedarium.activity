@@ -92,3 +92,51 @@ enyo.kind({
 		Abcd.setLocale(Abcd.frTexts);
 	}
 });	
+
+
+// Collection component
+enyo.kind({
+	name: "Abcd.PlayTypeButton",
+	published: { from: "", to: "", theme: null },
+	classes: "play-type-button",
+	components: [
+		{ name: "contentBox", components: [
+			{ name: "imageFrom", classes: "playtypeImageFrom", kind: "Image" },
+			{ name: "imageArrow", classes: "playtypeImageArrow", kind: "Image", src: "images/arrow.png" },
+			{ name: "imageTo", classes: "playtypeImageTo", kind: "Image" }
+		]}
+	],
+	
+	// Constructor
+	rendered: function() {
+		this.inherited(arguments);
+		
+		if (this.theme != null)
+			this.$.contentBox.addClass(this.theme);
+		this.fromChanged();
+		this.toChanged();
+	},
+	
+	// Case changed
+	setCase: function() {
+		if (this.from.substr(0, 6) == "letter") {
+			this.from = "letter" + Abcd.context.casevalue;
+			this.fromChanged();
+		}
+		if (this.to.substr(0, 6) == "letter") {
+			this.to = "letter" + Abcd.context.casevalue;
+			this.toChanged();
+		}
+	},
+	
+	// Image source setup
+	fromChanged: function() {
+		var src = "images/"+this.from+".png";
+		this.$.imageFrom.setAttribute("src", src);
+	},
+	
+	toChanged: function() {
+		var src = "images/"+this.to+".png";	
+		this.$.imageTo.setAttribute("src", src);
+	}	
+});	

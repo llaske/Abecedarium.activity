@@ -4,7 +4,6 @@
 var entriesByScreen = 8;
 
 
-
 // Learn app class
 enyo.kind({
 	name: "Abcd.Learn",
@@ -99,7 +98,7 @@ enyo.kind({
 		var length = Abcd.collections.length;
 		this.cleanBox();
 		Abcd.changeVisibility(this, {home: false, back: true, prev: false, next: false, pageCount: false, startSlideshow: false, stopSlideshow: false});
-		this.$.colorBar.removeClass("themeColor-1");		
+		this.$.colorBar.removeClass("themeColor-1");
 		this.$.colorBar.addClass("themeColor"+this.theme);
 		this.$.box.removeClass("box-4-theme");
 		this.$.box.addClass("box-4-collection");

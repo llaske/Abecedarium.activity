@@ -146,6 +146,7 @@
 	border-color: darkgray;
 	box-shadow: 5px -4px 4px 2px black;
 	width: 220px;
+	height: 220px;
 	background-color: white;
 	display: inline-block;
 	margin-left: 30px;
@@ -161,10 +162,18 @@
 	margin-left: 35px;
 }
 
+.entryImageOnly {
+	margin-top: 30px;
+}
+
 .entryText {
 	font-size:30px;
 	text-align: center;
 	padding: 5px;
+}
+
+.entryTextOnly {
+	margin-top: 80px;
 }
 
 .entryText0 {
@@ -181,6 +190,11 @@
 }
 
 .entrySoundIcon {
+}
+
+.entrySoundIconOnly {
+	margin-left: 60px;
+	margin-top: 60px;
 }
 
 .entrySound {
@@ -300,4 +314,89 @@
 
 .themeColor4 {
 	background-color: #b17f46;
+}
+
+.playbox {
+	margin-left: 150px;
+	margin-top: 40px;
+}
+
+.play-type-button {
+	border-width: 2px;
+	border-style: inset;
+	border-color: darkgray;
+	box-shadow: 2px -2px 2px 1px black;
+	margin-left: 40px;
+	margin-top: 40px;
+	z-index: 0;
+	-webkit-user-select: none;
+	user-select: none;	
+	display: inline-block;
+}
+
+.play-button-color1 {
+	background-color: #4040ff;
+}
+
+.play-button-color2 {
+	background-color: #ff4040;
+}
+
+.play-button-color3 {
+	background-color: #ff80ff;
+}
+
+.themeColor5 {
+	background-color: #4040ff;
+}
+
+.themeColor6 {
+	background-color: #ff4040;
+}
+
+.themeColor7 {
+	background-color: #ff80ff;
+}
+
+.playtypeImageFrom {
+	padding: 10px;
+}
+
+.playtypeImageArrow {
+	padding: 10px;
+}
+
+.playtypeImageTo {
+	padding: 10px;
+}
+
+.entryPlayFrom {
+	display: block;
+	margin-top: 50px;
+	margin-left: 310px;
+}
+
+.entryPlayTo {
+	margin-top: 20px;
+	margin-left: 40px;
+}
+
+.entryPlaySelected {
+	border-color: blue;
+}
+
+.entryPlayWrong {
+	background-color: red;
+}
+
+.entryPlayRight {
+	background-color: green;
+}
+
+.checkButton {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	left: 1010px;
+	top: 480px;
 }
