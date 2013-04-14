@@ -63,31 +63,19 @@ Abcd.changeVisibility = function(object, items) {
 }
 
 // Randomly get an entry in the current language
-Abcd.randomEntryIndex = function(excludes) {
-	var exclude = false;
-	var found = -1;
-	while (!exclude) {
-		var found = _randomSelection();
-		exclude = true;
-		if (excludes !== undefined) {
-			for (var item in excludes) {
-				if (item == found) {
-					exclude = false;
-					break;
-				}
-			}
-		}
-	}
-	return found;
-}
-
-function _randomSelection() {
+Abcd.randomEntryIndex = function(excludes, filter) {
 	// Choose a letter
 	var firstlen = 0;
+	var firstindex = -1;
 	for(var key in Abcd.letters) {
+		if (filter != null && filter.letter == key) {
+			firstindex = firstlen;
+			break;
+		}
 		if (Abcd.letters.hasOwnProperty(key)) firstlen++;
 	}
-	var firstindex = Math.floor(Math.random()*firstlen);
+	if (firstindex == -1)
+		firstindex = Math.floor(Math.random()*firstlen);
 	
 	// Choose an index
 	var i = 0;
@@ -98,9 +86,25 @@ function _randomSelection() {
 			break;
 		}
 	}
-	var secondlen = value.length;
+	
+	// Copy without excludes
+	var array = [];
+	for (i = 0 ; i < value.length ; i++) {
+		var found = false;
+		if (excludes !== undefined) {
+			for (var j = 0 ; !found && j < excludes.length ; j++) {
+				if (value[i] == excludes[j])
+					found = true;
+			}
+		}
+		if (!found)
+			array.push(value[i]);
+	}
+
+	// Select one randomely
+	var secondlen = array.length;
 	var secondindex = Math.floor(Math.random()*secondlen);
-	return value[secondindex];
+	return array[secondindex];
 }
 
 // Mix an array into a new one

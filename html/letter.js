@@ -2,7 +2,7 @@
 enyo.kind({
 	name: "Abcd.Letter",
 	kind: "Abcd.Item",
-	published: { letter: "" },
+	published: { letter: "", selected: false },
 	classes: "itemLetter",
 	showing: false,
 	components: [
@@ -13,6 +13,7 @@ enyo.kind({
 	create: function() {
 		this.inherited(arguments);
 		this.letterChanged();
+		this.selectedChanged();
 	},
 	
 	// Display only when image is load
@@ -25,10 +26,19 @@ enyo.kind({
 	setLocale: function() {
 	},
 	
-	// Card setup
+	// Letter setup
 	letterChanged: function() {
-		this.letter = this.letter.toLowerCase()	
-		this.$.itemImage.setAttribute("src", "images/letters/"+this.letter+Abcd.context.casevalue+".png");
+		if (this.letter !== "") {
+			this.letter = this.letter.toLowerCase();	
+			this.$.itemImage.setAttribute("src", "images/letters/"+this.letter+Abcd.context.casevalue+".png");
+		}
+	},
+	
+	selectedChanged: function() {
+		if (this.selected)
+			this.addClass("itemLetter-selected");
+		else
+			this.removeClass("itemLetter-selected");
 	},
 	
 	// Play sound for this letter

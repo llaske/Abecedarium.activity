@@ -18,12 +18,15 @@ enyo.kind({
 			{kind: "Abcd.LanguageButton"}
 		]},
 		{components: [
+			{name: "filterLetter", kind: "Abcd.Letter", letter: "", classes: "filterLetter"},
 			{name: "itemCount", content: "-/-", classes: "pageCount", showing: false},		
 			{name: "back", kind: "Image", src: "images/back.png", showing: false, classes: "backButton", ontap: "backTaped"},
+			{name: "filter", kind: "Image", src: "images/filter.png", showing: false, classes: "filterButton", ontap: "filterTaped"},
 			{name: "check", kind: "Image", src: "images/check.png", showing: false, classes: "checkButton", ontap: "checkTaped"}
 		]},		
 		{name: "box", classes: "playbox", components: [
-		]}	
+		]},
+		{name: "filterPopup", kind: "Abcd.FilterPopup", onFilterChanged: "filterChanged"}
 	],
 	
 	// Constructor
@@ -37,6 +40,7 @@ enyo.kind({
 		this.from = null;
 		this.selected = null;
 		this.forbidentry = false;
+		this.filter = null;
 		
 		this.displayButtons();
 	},
@@ -55,10 +59,12 @@ enyo.kind({
 	// Display game choice buttons
 	displayButtons: function() {
 		this.cleanBox();
-		Abcd.changeVisibility(this, {home: true, back: false, check: false, itemCount: false});
+		Abcd.changeVisibility(this, {home: true, back: false, filter: true, check: false, itemCount: false});
 		this.$.colorBar.removeClass("themeColor"+this.theme);
 		this.theme = -1;
 		this.$.colorBar.addClass("themeColor"+this.theme);
+		if (this.filter == null)
+			this.$.filterLetter.hide();
 		
 		// Draw From picture buttons
 		this.$.box.createComponent(
@@ -93,19 +99,50 @@ enyo.kind({
 	
 	// Localization changed
 	setLocale: function() {
+		// Remove filter because too risky
+		this.filter = null;
+		this.$.filterLetter.hide();
+		this.$.filterPopup.setFilter(null);
+		this.$.filterPopup.render();		
+		
 		// If playing, change game because could inexist in the current language
 		if (this.theme != -1)
 			this.computeGame();
+			
 	},
 	
 	// Case changed
 	setCase: function() {
+		// Redraw button
 		enyo.forEach(this.$.box.getControls(), function(item) {
 			if (item.kind == 'Abcd.Entry')
 				item.indexChanged();
 			else
 				item.setCase();				
-		});		
+		});
+		
+		// Redraw filter letter and filter popup
+		this.$.filterLetter.hide();
+		this.$.filterPopup.setFilter(this.filter);
+		this.$.filterPopup.render();
+	},
+	
+	// Display filter dialog
+	filterTaped: function() {
+		this.$.filterPopup.filter = this.filter;
+		this.$.filterPopup.show();
+	},
+	
+	// Process filter change
+	filterChanged: function(s, e) {
+		this.filter = this.$.filterPopup.filter;
+		this.$.filterPopup.render();
+		if (this.filter == null) {
+			this.$.filterLetter.hide();
+		} else {
+			this.$.filterLetter.show();
+			this.$.filterLetter.setLetter(this.filter.letter);
+		}
 	},
 	
 	// Convert value to entry option
@@ -120,7 +157,7 @@ enyo.kind({
 	// Start game
 	doGame: function(button, event) {		
 		// Redraw bar
-		Abcd.changeVisibility(this, {home: false, back: true, check: true, itemCount: true});
+		Abcd.changeVisibility(this, {home: false, back: true, filter: false, check: true, itemCount: true});
 		this.themeButton = button;
 		if (this.themeButton.from == "picture") this.theme = 5;
 		else if (this.themeButton.from == "listen") this.theme = 7;
@@ -139,7 +176,7 @@ enyo.kind({
 		this.cleanBox();
 		this.forbidentry = false;
 		this.$.itemCount.setContent((this.gamecount+1)+"/"+entriesByGame);
-		var tofind = Abcd.randomEntryIndex();
+		var tofind = Abcd.randomEntryIndex(undefined, this.filter);
 		var options = this.convertToEntryOption(this.themeButton.from);		
 		var fromEntry = this.from = this.$.box.createComponent(
 			{kind: "Abcd.Entry", index:tofind, soundonly: options["soundonly"], imageonly: options["imageonly"], textonly: options["textonly"], ontap: "entryTaped"},
@@ -158,7 +195,7 @@ enyo.kind({
 		var excludes = [];
 		excludes.push(tofind);
 		for (var i = 0 ; i < 2 ; i++) {
-			var wrong = Abcd.randomEntryIndex(excludes);
+			var wrong = Abcd.randomEntryIndex(excludes, this.filter);
 			excludes.push(wrong);
 		}
 		excludes = Abcd.mix(excludes);
