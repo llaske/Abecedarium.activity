@@ -64,32 +64,45 @@ Abcd.changeVisibility = function(object, items) {
 
 // Randomly get an entry in the current language
 Abcd.randomEntryIndex = function(excludes, filter) {
-	// Choose a letter
-	var firstlen = 0;
-	var firstindex = -1;
-	for(var key in Abcd.letters) {
-		if (filter != null && filter.letter == key) {
-			firstindex = firstlen;
-			break;
+	// Get first level
+	var value = null;	
+	if (filter != null && filter.kind == "Abcd.Collection") {
+		// Get the collection
+		var collection = Abcd.collections[filter.index];
+		var length = collection.entries.length;
+		value = [];
+		for (var i = 0 ; i < length ; i++) {
+			var entry = collection.entries[i];
+			if (Abcd.entries[entry][Abcd.context.lang] == 1)
+				value.push(entry);
+		}		
+	} else {
+		// Choose a letter
+		var firstlen = 0;
+		var firstindex = -1;		
+		for(var key in Abcd.letters) {
+			if (filter != null && filter.letter == key) {
+				firstindex = firstlen;
+				break;
+			}
+			if (Abcd.letters.hasOwnProperty(key)) firstlen++;
 		}
-		if (Abcd.letters.hasOwnProperty(key)) firstlen++;
-	}
-	if (firstindex == -1)
-		firstindex = Math.floor(Math.random()*firstlen);
-	
-	// Choose an index
-	var i = 0;
-	var value = null;
-	for(var key in Abcd.letters) {
-		if (i++ == firstindex) {
-			value = Abcd.letters[key]; 
-			break;
+		if (firstindex == -1)
+			firstindex = Math.floor(Math.random()*firstlen);
+		
+		// Choose an index
+		var i = 0;
+		for(var key in Abcd.letters) {
+			if (i++ == firstindex) {
+				value = Abcd.letters[key]; 
+				break;
+			}
 		}
 	}
 	
 	// Copy without excludes
 	var array = [];
-	for (i = 0 ; i < value.length ; i++) {
+	for (var i = 0 ; i < value.length ; i++) {
 		var found = false;
 		if (excludes !== undefined) {
 			for (var j = 0 ; !found && j < excludes.length ; j++) {

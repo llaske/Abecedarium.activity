@@ -1,7 +1,7 @@
 ﻿
 @font-face {
 	font-family: Rochester;
-	src: url('css/Rochester-Regular.ttf');
+	src: url('Rochester-Regular.ttf');
 }
 
 .logo {
@@ -117,7 +117,7 @@
 
 .itemLetter {
 	display: inline-block;
-	margin-right: 13px;
+	margin-right: 15px;
 	margin-bottom: 10px;
 	z-index: 0;		
 }
@@ -125,7 +125,7 @@
 .itemLetter-selected {
 	border: thin solid;
 	border-width: 4px;
-	border-color: blue;	
+	border-color: blue;
 }
 
 .spinner {
@@ -225,6 +225,11 @@
 	display: inline-block;
 }
 
+.itemCollection-selected {
+	border-color: blue;
+	color: blue;
+}
+
 .collectionImage {
 	width: 30%;	
 	vertical-align: middle;
@@ -265,12 +270,17 @@
 	background-color: white;
 	z-index: 0;
 	-webkit-user-select: none;
-	margin-left: 5px;
+	margin-left: 10px;
 	margin-right: 25px;
 	margin-top: 60px;
 	margin-bottom: 80px;
 	display: inline-block;	
 	user-select: none;		
+}
+
+.itemTheme-selected {
+	border-color: blue;
+	color: blue;
 }
 
 .themeImage {
@@ -323,7 +333,7 @@
 
 .playbox {
 	margin-left: 150px;
-	margin-top: 40px;
+	margin-top: 90px;
 }
 
 .play-type-button {
@@ -388,6 +398,7 @@
 
 .entryPlaySelected {
 	border-color: blue;
+	color: blue;
 }
 
 .entryPlayWrong {
@@ -398,12 +409,20 @@
 	background-color: green;
 }
 
+.itemCount {
+	font-size: 26px;
+	position: absolute;
+	left: 565px;
+	top: 105px;	
+	text-align: center;
+}
+
 .checkButton {
 	position: absolute;
 	width: 60px;
 	height: 60px;
 	left: 1010px;
-	top: 480px;
+	top: 520px;
 }
 
 .filterBox {
@@ -424,8 +443,14 @@
 	top: 90px;
 }
 
+.filterCollection {
+	position: absolute;
+	left: -25px;
+	top: 60px;
+}
+
 .filter-popup {
-	width: 1055px;
+	width: 1080px;
 	height: 600px;
 	color: black;
 }
@@ -434,6 +459,6 @@
 	position: absolute;
 	width: 60px;
 	height: 60px;
-	left: 980px;
+	left: 1000px;
 	top: 540px;
 }

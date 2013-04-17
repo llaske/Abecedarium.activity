@@ -19,7 +19,8 @@ enyo.kind({
 		]},
 		{components: [
 			{name: "filterLetter", kind: "Abcd.Letter", letter: "", classes: "filterLetter"},
-			{name: "itemCount", content: "-/-", classes: "pageCount", showing: false},		
+			{name: "filterCollection", kind: "Abcd.Collection", index: 0, classes: "filterCollection", showing: false},
+			{name: "itemCount", content: "-/-", classes: "itemCount", showing: false},		
 			{name: "back", kind: "Image", src: "images/back.png", showing: false, classes: "backButton", ontap: "backTaped"},
 			{name: "filter", kind: "Image", src: "images/filter.png", showing: false, classes: "filterButton", ontap: "filterTaped"},
 			{name: "check", kind: "Image", src: "images/check.png", showing: false, classes: "checkButton", ontap: "checkTaped"}
@@ -101,9 +102,8 @@ enyo.kind({
 	setLocale: function() {
 		// Remove filter because too risky
 		this.filter = null;
-		this.$.filterLetter.hide();
-		this.$.filterPopup.setFilter(null);
-		this.$.filterPopup.render();		
+		this.$.filterLetter.hide();		
+		this.$.filterCollection.hide();		
 		
 		// If playing, change game because could inexist in the current language
 		if (this.theme != -1)
@@ -122,26 +122,28 @@ enyo.kind({
 		});
 		
 		// Redraw filter letter and filter popup
-		this.$.filterLetter.hide();
-		this.$.filterPopup.setFilter(this.filter);
-		this.$.filterPopup.render();
+		this.$.filterLetter.letterChanged();
+		this.$.filterCollection.indexChanged();
 	},
 	
 	// Display filter dialog
 	filterTaped: function() {
-		this.$.filterPopup.filter = this.filter;
-		this.$.filterPopup.show();
+		this.$.filterPopup.display(this.filter);
 	},
 	
 	// Process filter change
 	filterChanged: function(s, e) {
 		this.filter = this.$.filterPopup.filter;
-		this.$.filterPopup.render();
-		if (this.filter == null) {
-			this.$.filterLetter.hide();
-		} else {
-			this.$.filterLetter.show();
-			this.$.filterLetter.setLetter(this.filter.letter);
+		this.$.filterLetter.hide();
+		this.$.filterCollection.hide();		
+		if (this.filter != null) {
+			if (this.filter.kind == "Abcd.Letter") {
+				this.$.filterLetter.show();
+				this.$.filterLetter.setLetter(this.filter.letter);
+			} else {
+				this.$.filterCollection.show();
+				this.$.filterCollection.setIndex(this.filter.index);			
+			}
 		}
 	},
 	

@@ -2,7 +2,7 @@
 enyo.kind({
 	name: "Abcd.Letter",
 	kind: "Abcd.Item",
-	published: { letter: "", selected: false },
+	published: { letter: "" },
 	classes: "itemLetter",
 	showing: false,
 	components: [
@@ -32,13 +32,6 @@ enyo.kind({
 			this.letter = this.letter.toLowerCase();	
 			this.$.itemImage.setAttribute("src", "images/letters/"+this.letter+Abcd.context.casevalue+".png");
 		}
-	},
-	
-	selectedChanged: function() {
-		if (this.selected)
-			this.addClass("itemLetter-selected");
-		else
-			this.removeClass("itemLetter-selected");
 	},
 	
 	// Play sound for this letter

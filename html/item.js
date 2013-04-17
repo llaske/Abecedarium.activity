@@ -2,7 +2,7 @@
 enyo.kind({
 	name: "Abcd.Item",
 	kind: enyo.Control,
-	published: { x: -1, y: -1, z: -1 },
+	published: { x: -1, y: -1, z: -1, selected: false },
 	
 	// Constructor
 	create: function() {
@@ -10,6 +10,7 @@ enyo.kind({
 		this.xChanged();
 		this.yChanged();
 		this.zChanged();
+		this.selectedChanged();
 	},
 	
 	// Localization changed, update 
@@ -30,6 +31,15 @@ enyo.kind({
 	// Coordinate setup
 	zChanged: function() {	
 		if (this.z != -1) this.applyStyle("z-index", this.z);
+	},
+	
+	// Selection changed
+	selectedChanged: function() {
+		var className = "item"+this.kind.substring(5)+"-selected";
+		if (this.selected)
+			this.addClass(className);
+		else
+			this.removeClass(className);
 	},
 	
 	// Change position
