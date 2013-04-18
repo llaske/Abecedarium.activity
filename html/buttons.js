@@ -84,12 +84,12 @@ enyo.kind({
 	// Change current language
 	localEnglish: function() {
 		Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: true});
-		Abcd.setLocale(Abcd.enTexts);
+		Abcd.setLocale("en");
 	},
 	
 	localFrench: function() {
 		Abcd.changeVisibility(this, {switchToEnglish: true, switchToFrench: false});
-		Abcd.setLocale(Abcd.frTexts);
+		Abcd.setLocale("fr");
 	}
 });	
 

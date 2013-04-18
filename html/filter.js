@@ -1,4 +1,4 @@
-
+﻿
 
 // Minimum number of entries to allow filtering
 var minFilterEntries = 3;

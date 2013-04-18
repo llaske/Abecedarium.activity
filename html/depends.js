@@ -10,6 +10,7 @@
 	"theme.js",
 	"letter.js",
 	"buttons.js",
+	"credits.js",
 	"filter.js",
 	"learn.js",
 	"play.js",

@@ -1,4 +1,4 @@
-
+﻿
 
 // Collections size on the screen
 var entriesByGame = 4;
@@ -9,6 +9,9 @@ enyo.kind({
 	name: "Abcd.Play",
 	kind: enyo.Control,
 	classes: "board",
+	published: {
+		context: null,
+	},	
 	components: [
 		{kind: "Signals", onEndOfSound: "endSound"},
 		{components: [
@@ -43,7 +46,45 @@ enyo.kind({
 		this.forbidentry = false;
 		this.filter = null;
 		
-		this.displayButtons();
+		this.restoreContext();
+		this.filterChanged({filter: this.filter});
+		if (this.theme != -1)
+			this.doGame(this.themeButton);
+		else
+			this.displayButtons();
+	},
+	
+	// Context handling
+	restoreContext: function() {
+		if (this.context == null || this.context == "")
+			return;
+		var values = this.context.split('|');
+		this.theme = values[0];
+		this.gamecount = parseInt(values[1]);
+		this.themeButton = { from: values[2], to: values[3] };
+		if (values[4] != "")
+			this.filter = { kind: values[4], index: values[5], letter: values[5] };
+	},
+	
+	saveContext: function() {
+		var values = [];
+		values.push(this.theme);
+		values.push(this.gamecount);
+		if (this.themeButton != null) {
+			values.push(this.themeButton.from);
+			values.push(this.themeButton.to);
+		} else {
+			values.push("");
+			values.push("");
+		}
+		if (this.filter != null) {
+			values.push(this.filter.kind);
+			values.push(this.filter.kind == "Abcd.Letter"?this.filter.letter:this.filter.index)
+		} else {
+			values.push("");
+			values.push("");
+		}
+		return values.join("|");
 	},
 	
 	// Delete all the box content
@@ -95,7 +136,7 @@ enyo.kind({
 		this.$.box.createComponent(
 			{ kind: "Abcd.PlayTypeButton", from: "listen", to: "letter"+Abcd.context.casevalue, ontap: "doGame", theme: "play-button-color3" },
 			{ owner: this }
-		).render();		
+		).render();	
 	},
 	
 	// Localization changed
@@ -133,7 +174,7 @@ enyo.kind({
 	
 	// Process filter change
 	filterChanged: function(s, e) {
-		this.filter = this.$.filterPopup.filter;
+		this.filter = s.filter;
 		this.$.filterLetter.hide();
 		this.$.filterCollection.hide();		
 		if (this.filter != null) {
@@ -168,7 +209,6 @@ enyo.kind({
 		this.$.colorBar.addClass("themeColor"+this.theme);
 		
 		// Compute game
-		this.gamecount = 0;
 		this.computeGame();
 	},
 	
@@ -246,6 +286,7 @@ enyo.kind({
 	backTaped: function() {
 		this.$.colorBar.removeClass("themeColor"+this.theme);
 		this.theme = -1;
+		this.gamecount = 0;
 		this.displayButtons();
 	},
 	
@@ -287,9 +328,10 @@ enyo.kind({
 			this.selected = null;	
 			
 			// Next game or try another game
-			if ( ++this.gamecount == entriesByGame )
+			if ( ++this.gamecount == entriesByGame ) {
+				this.gamecount = 0;
 				this.displayButtons();
-			else
+			} else
 				this.computeGame();
 		}
 	}

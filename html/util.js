@@ -7,29 +7,47 @@ Abcd = {};
 
 // Game context handling
 Abcd.context = {
-	screen: null,
+	home: null,
+	object: null,
+	screen: "",
 	lang: "fr",
 	casevalue: 0,
+	screenContext: null
 };
 Abcd.saveContext = function() {
-	Abcd.sugar.sendMessage(
-		"save-context",	{});
+	var values = [];
+	values.push(Abcd.context.object!=null?Abcd.context.object.kindName:"");
+	values.push(Abcd.context.lang);
+	values.push(Abcd.context.casevalue);
+	values.push(Abcd.context.object!=null?Abcd.context.object.saveContext():"");
+	Abcd.sugar.sendMessage("save-context", {context:values.join("#")});
 };
 Abcd.loadContext = function(context) {
+	if (context == null || context == "" || !context.context)
+		return;
+	var values = context.context.split('#');
+	Abcd.context.screen = values[0];
+	Abcd.context.lang = values[1];
+	Abcd.context.casevalue = values[2];
+	Abcd.context.screenContext = values[3];
+	Abcd.setLocale(Abcd.context.lang);
 };
 
 
 // Init Sugar interface
-Abcd.setLocale = function(texts) {
+Abcd.setLocale = function(lang) {
+	var texts = Abcd.enTexts;
+	if (lang == "fr")
+		texts = Abcd.frTexts;	
 	__$FC_l10n_set(texts);
-	Abcd.letters = Abcd[Abcd.context.lang+"Letters"];
-	if (Abcd.context.screen != null)
-		Abcd.context.screen.setLocale();
+	Abcd.letters = Abcd[lang+"Letters"];
+	if (Abcd.context.object != null)
+		Abcd.context.object.setLocale();
 }
 Abcd.setCase = function(casevalue) {
 	Abcd.context.casevalue = casevalue;
-	if (Abcd.context.screen != null)
-		Abcd.context.screen.setCase();
+	if (Abcd.context.object != null)
+		Abcd.context.object.setCase();
 }
 Abcd.sugar = new Sugar();
 Abcd.sugar.connect("localization", Abcd.setLocale);
@@ -44,6 +62,7 @@ Abcd.log = function(msg) {
 // Home handling
 Abcd.goHome = function() {
 	if (Abcd.context.home != null) {
+		Abcd.context.screen = "";
 		Abcd.context.home.renderInto(document.getElementById("body"));
 		Abcd.context.home.playTheme();
 	}

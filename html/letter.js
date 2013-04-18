@@ -1,4 +1,4 @@
-// Theme component
+﻿// Letter component
 enyo.kind({
 	name: "Abcd.Letter",
 	kind: "Abcd.Item",

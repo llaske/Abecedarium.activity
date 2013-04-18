@@ -162,7 +162,7 @@ class AbecedariumActivity(activity.Activity):
         "Called by Enyo to save the current context"
         file = open(self.file_path, 'w')
         try:
-            nop
+            file.write(context['context']+'\n')
         finally:
             file.close()
 
@@ -172,7 +172,7 @@ class AbecedariumActivity(activity.Activity):
         file = open(file_path, 'r')
         self.context = {}
         try:
-            nop
+            self.context['context'] = file.readline().strip('\n')
         finally:
             file.close()
 

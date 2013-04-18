@@ -1,4 +1,4 @@
-
+﻿
 // Sounds theme
 var soundThemes = [ "audio/theme_piano", "audio/theme_guitar", "audio/theme_violon", "audio/theme_oboe", "audio/theme_trompet", "audio/theme_mallets", "audio/theme_soprano"];
 var soundNotesPos = [ 24, 536, 1024, 1536, 2057, 2569, 3048, 4040, 4552, 5032, 5560, 6064, 6349, 6570, 6836, 7072, 8056, 8560, 9072, 10071, 10575, 11071, 12063, 13061, 14063, 15062 ];
@@ -21,14 +21,28 @@ enyo.kind({
 			{name: "play", kind: "Image", src: "images/play.png", classes: "playButton", ontap: "playGame"},	
 			{name: "build", kind: "Image", src: "images/build.png", classes: "buildButton", ontap: "buildGame"}		
 		]},
-		{kind: "Signals", onEndOfSound: "endOfSound", onSoundTimeupdate: "soundTimeupdate"}		
+		{name: "creditsPopup", kind: "Abcd.CreditsPopup"},		
+		{kind: "Signals", onEndOfSound: "endOfSound", onSoundTimeupdate: "soundTimeupdate"}
 	],
 	
 	// Constructor, save home
 	create: function() {
 		this.inherited(arguments);
 		Abcd.context.home = this;
-		this.playTheme();
+	},
+	
+	// Start the last closed activity if context not null
+	rendered: function() {
+		if (Abcd.context.screen != "") {
+			Abcd.context.object = enyo.create({
+				kind: Abcd.context.screen,
+				context: Abcd.context.screenContext
+			}).renderInto(document.getElementById("body"));
+			Abcd.context.screen = "";
+			return true;
+		}
+		this.playTheme();		
+		Abcd.context.object = null;
 	},
 	
 	// Play theme
@@ -38,17 +52,23 @@ enyo.kind({
 		Abcd.sound.play(soundThemes[this.soundindex]);
 	},
 	
-	// Play games
+	// Launch activities
 	learnGame: function(e, s) {
-		Abcd.sound.pause();	
-		Abcd.context.screen = new Abcd.Learn().renderInto(document.getElementById("body"));	
+		Abcd.sound.pause();
+		
+		Abcd.context.object = new Abcd.Learn().renderInto(document.getElementById("body"));
 	},
 	
 	playGame: function(e, s) {
 		Abcd.sound.pause();	
-		Abcd.context.screen = new Abcd.Play().renderInto(document.getElementById("body"));	
+		Abcd.context.object = new Abcd.Play().renderInto(document.getElementById("body"));
 	},
-		
+
+	// Display credits page
+	displayCredits: function(e, s) {
+		this.$.creditsPopup.show();
+	},
+	
 	// Sound ended, play next instrument
 	endOfSound: function(e, s) {
 		if (s == soundThemes[this.soundindex])

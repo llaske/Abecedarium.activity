@@ -462,3 +462,30 @@
 	left: 1000px;
 	top: 540px;
 }
+
+.credits-popup {
+	width: 880px;
+	height: 550px;
+	color: black;
+}
+
+.credit-image {
+	position: absolute;
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 220px;
+	height: 220px;
+}
+
+.credit-title {
+	font-size: 26px;
+	margin-top: 10px;
+	margin-left: 270px;
+	color: white;
+}
+
+.credit-name {
+	font-size: 16px;
+	margin-left: 300px;	
+	color: white;
+}

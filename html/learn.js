@@ -9,6 +9,9 @@ enyo.kind({
 	name: "Abcd.Learn",
 	kind: enyo.Control,
 	classes: "board",
+	published: {
+		context: null,
+	},	
 	components: [
 		{components: [
 			{name: "colorBar", classes: "colorBar"},
@@ -30,12 +33,42 @@ enyo.kind({
 	
 	// Constructor, save home
 	create: function() {
+		// Initialize
 		this.inherited(arguments);
-		this.displayThemes();
-		this.theme = this.collection = this.entry = -1;
+		this.theme = this.collection = this.entry = this.position = -1;
 		this.collections = [];
 		this.playing = null;
 		this.slideshowIndex = -1;
+		
+		// Set previous context
+		this.restoreContext();
+		if (this.theme != -1) {
+			if (this.theme == 4) 
+				this.displayLetters({letter: this.collection});
+			else if (this.collection != -1)
+				this.displayEntries({index: this.collection});
+			else
+				this.displayCollections({index: this.theme});
+		} else
+			this.displayThemes();		
+	},
+	
+	// Context handling
+	restoreContext: function() {
+		if (this.context == null || this.context == "")
+			return;
+		var values = this.context.split('|');
+		this.theme = values[0];
+		this.collection = values[1];
+		this.entry = parseInt(values[2]);
+	},
+	
+	saveContext: function() {
+		var values = [];
+		values.push(this.theme);
+		values.push(this.collection);
+		values.push(this.position);
+		return values.join("|");
 	},
 	
 	// Localization changed
@@ -43,10 +76,11 @@ enyo.kind({
 		// If on an entry, redisplay from the beginning to avoid displaying non translated text
 		var current = this.$.box.getControls()[0];
 		if (current.kind == "Abcd.Entry") {
-			if (this.collection.kind === undefined)
+			this.entry = -1;
+			if (this.theme != 4)
 				this.displayEntries({index: Abcd.entries[current.index].coll});
 			else
-				this.displayLetters(this.collection);
+				this.displayLetters({letter:this.collection});
 			return;
 		}
 		
@@ -74,7 +108,7 @@ enyo.kind({
 		var length = Abcd.themes.length;
 		this.cleanBox();
 		this.$.box.addClass("box-4-theme");
-		Abcd.changeVisibility(this, {home: true, back: false, prev: false, next: false, pageCount: false});
+		Abcd.changeVisibility(this, {home: true, back: false, prev: false, next: false, pageCount: false, startSlideshow: false, stopSlideshow: false});
 		this.$.colorBar.addClass("themeColor"+this.theme);
 		for (var i = 0 ; i < length ; i++) {
 			this.$.box.createComponent(
@@ -92,7 +126,7 @@ enyo.kind({
 		}
 	},
 	
-	// Display all collection
+	// Display all collection for a theme
 	displayCollections: function(inSender, inEvent) {
 		this.theme = inSender.index;	
 		var length = Abcd.collections.length;
@@ -111,9 +145,10 @@ enyo.kind({
 	// Display entries in a collection
 	displayEntries: function(inSender, inEvent) {
 		// Get items in collection
-		this.$.box.removeClass("box-4-collection");		
+		this.$.box.removeClass("box-4-collection");	
+		this.$.colorBar.addClass("themeColor"+this.theme);		
 		var index = inSender.index;		
-		this.collection = Abcd.collections[index];
+		this.collection = index;
 		this.collections = [];
 		var length = Abcd.collections[index].entries.length;
 		for (var i = 0 ; i < length ; i++) {
@@ -123,25 +158,26 @@ enyo.kind({
 		}
 
 		// Display it
-		this.displayEntriesFrom(0);
+		this.displayEntriesFrom(this.entry+1);
 	},
 		
 	// Display entries from a letter
 	displayLetters: function(inSender, inEvent) {
 		// Play letter sound
-		inSender.play(Abcd.sound);
+		if (inSender.kind !== undefined)
+			inSender.play(Abcd.sound);
 		
 		// Get items with this letters
-		if (Abcd.letters[inSender.letter] === undefined)
+		this.collection = inSender.letter;
+		if (Abcd.letters[this.collection] === undefined)
 			return;
-		this.collection = inSender;
-		this.collections = Abcd.letters[inSender.letter];
+		this.collections = Abcd.letters[this.collection];
 
 		// Display it
 		this.theme = 4;
 		this.$.colorBar.addClass("themeColor"+this.theme);
 		this.$.box.removeClass("box-4-theme");		
-		this.displayEntriesFrom(0);
+		this.displayEntriesFrom(this.entry+1);
 	},	
 	
 	displayEntriesFrom: function(position) {
@@ -170,6 +206,7 @@ enyo.kind({
 		else
 			this.$.next.hide();	
 		this.$.pageCount.setContent(Math.ceil(i/entriesByScreen)+"/"+Math.ceil(length/entriesByScreen));
+		this.position = position-1;
 	},
 	
 	displayNextEntries: function() {
@@ -184,7 +221,8 @@ enyo.kind({
 	
 	backTaped: function() {
 		var current = this.$.box.getControls()[0];
-		if (current.kind == "Abcd.Entry" && this.collection.kind === undefined) {
+		this.entry = -1;
+		if (current.kind == "Abcd.Entry" && this.theme != 4) {
 			this.displayCollections({index: this.theme});
 			this.$.box.removeClass("box-4-entry");
 			return;
