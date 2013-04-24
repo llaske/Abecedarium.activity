@@ -2,6 +2,8 @@
 	"sugar.js",	
 	"util.js",
 	"database.js",
+	"config.js",
+	"network.js",
 	"l10n.js",
 	"audio.js",
 	"item.js",

@@ -219,10 +219,11 @@ enyo.kind({
 		this.displayEntriesFrom(Math.max(0,this.entry-entriesByScreen-this.entry%entriesByScreen));
 	},
 	
-	backTaped: function() {
+	backTaped: function() {	
 		var current = this.$.box.getControls()[0];
 		this.entry = -1;
 		if (current.kind == "Abcd.Entry" && this.theme != 4) {
+			this.collection = -1;
 			this.displayCollections({index: this.theme});
 			this.$.box.removeClass("box-4-entry");
 			return;

@@ -1,7 +1,16 @@
 # What is Abecedarium ?
 
-Abecedarium activity for Sugar.  
- 
+Abecedarium is an abecedary activity to learn its alphabet using images, sounds and words.
+
+Abecedarium has two parts:
+* Learn: To explore the words by letters or by theme (Nature, Body parts, Things, Concepts),
+* Play: Six little games to match pictures/sounds/words with possibility to filter by letter or by theme,
+* Build: It will allow to build little stories combining images and sounds from the database.
+
+All words could be seen in upper case, lower case or script.
+Abecedarium could be use both in English (about 500 words in the database) and in French (about 1000 words in the database).
+All contents come from the Art4apps library. See Credits page for more.
+
 
 
 # How it works ?
@@ -26,6 +35,11 @@ All the HTML5/JavaScript is in this directory.
 * styles.css contains all CSS class used
 * package.js list all javascript files to load
 * app.js is the main screen
+* learngame.js is the first game
+* playgame.js is the second game
+* buildgame.js is the third game
+* credits.js is the credit screen
+* all other .js files are component used by the games
 
 
 ## /html/enyo and /html/lib

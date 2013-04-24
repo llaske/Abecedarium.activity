@@ -7,7 +7,7 @@ enyo.kind({
 	components: [	
 		{ name: "spinner", kind: "Image", src: "images/spinner-light.gif", classes: "spinner"},	
 		{ name: "contentBox", showing: false, components: [		
-			{ name: "itemImage", classes: "themeImage", kind: "Image", onload: "imageLoaded" },
+			{ name: "itemImage", classes: "themeImage", kind: "Image", onload: "imageLoaded", onerror: "imageError" },
 			{ name: "itemText", classes: "themeText" }
 		]}
 	],
@@ -25,6 +25,11 @@ enyo.kind({
 			this.$.contentBox.show();
 		}
 	},
+
+	// Error loading image, probably lost connection to database
+	imageError: function() {
+		Abcd.goHome();
+	},
 	
 	// Localization changed, update text 
 	setLocale: function() {
@@ -36,7 +41,7 @@ enyo.kind({
 	indexChanged: function() {
 		var theme = Abcd.themes[this.index];
 		var entry = Abcd.entries[theme.img];
-		var image = "images/database/"+entry.code+".png";
+		var image = Abcd.context.database+"images/database/"+entry.code+".png";
 		var text = __$FC(theme.text);
 		if (Abcd.context.casevalue == 1)
 			text = text.toUpperCase();

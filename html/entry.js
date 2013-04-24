@@ -7,7 +7,7 @@ enyo.kind({
 	components: [
 		{ name: "spinner", kind: "Image", src: "images/spinner-light.gif", classes: "spinner"},	
 		{ name: "contentBox", showing: false, components: [
-			{ name: "itemImage", classes: "entryImage", kind: "Image", onload: "imageLoaded" },
+			{ name: "itemImage", classes: "entryImage", kind: "Image", onload: "imageLoaded", onerror: "imageError" },
 			{ name: "soundIcon", kind: "Image", classes: "entrySoundIcon" },
 			{ name: "itemText", classes: "entryText" }
 		]},
@@ -33,6 +33,11 @@ enyo.kind({
 			this.$.spinner.hide();
 			this.$.contentBox.show();
 		}
+	},
+
+	// Error loading image, probably lost connection to database
+	imageError: function() {
+		Abcd.goHome();
 	},
 	
 	// Unique visibility options
@@ -61,7 +66,7 @@ enyo.kind({
 	indexChanged: function() {
 		// Get content
 		var entry = Abcd.entries[this.index];
-		var image = "images/database/"+entry.code+".png";
+		var image = Abcd.context.database+"images/database/"+entry.code+".png";
 		var text = __$FC(entry.text);
 		if (Abcd.context.casevalue == 1)
 			text = text.toUpperCase();
@@ -69,7 +74,7 @@ enyo.kind({
 		// Get sound
 		if (this.soundonly) this.$.soundIcon.addClass("entrySoundIconOnly");		
 		if (entry[Abcd.context.lang]) {
-			this.sound = "audio/"+Abcd.context.lang+"/database/"+entry.code;
+			this.sound = Abcd.context.database+"audio/"+Abcd.context.lang+"/database/"+entry.code;
 			this.$.soundIcon.setSrc("images/sound_off"+(this.soundonly?1:0)+".png");
 		} else {
 			this.sound = null;

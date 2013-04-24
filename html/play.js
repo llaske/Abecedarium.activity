@@ -287,6 +287,7 @@ enyo.kind({
 		this.$.colorBar.removeClass("themeColor"+this.theme);
 		this.theme = -1;
 		this.gamecount = 0;
+		this.selected = null;		
 		this.displayButtons();
 	},
 	
@@ -300,7 +301,6 @@ enyo.kind({
 			this.selected = this.from;
 			this.selected.addClass("entryPlayWrong");
 		} else if (this.selected.index == this.from.index) {
-			this.check4end = true;
 			Abcd.sound.play("audio/applause");
 			this.selected.removeClass("entryPlaySelected");
 			this.selected.addClass("entryPlayRight");
@@ -313,6 +313,10 @@ enyo.kind({
 	
 	// End sound
 	endSound: function(e, s) {
+		// Prematured end
+		if (this.selected == null)
+			return;
+			
 		// Bad check, retry
 		if (s == "audio/disappointed") {
 			this.selected.removeClass("entryPlaySelected");

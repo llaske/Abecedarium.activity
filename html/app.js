@@ -19,9 +19,11 @@ enyo.kind({
 			{name: "credit", kind: "Image", src: "images/credit.png", classes: "creditButton", ontap: "displayCredits"},
 			{name: "learn", kind: "Image", src: "images/learn.png", classes: "learnButton", ontap: "learnGame"},
 			{name: "play", kind: "Image", src: "images/play.png", classes: "playButton", ontap: "playGame"},	
-			{name: "build", kind: "Image", src: "images/build.png", classes: "buildButton", ontap: "buildGame"}		
+			{name: "build", kind: "Image", src: "images/build.png", classes: "buildButton", ontap: "buildGame"},
+			{name: "networkCheck", kind: "Abcd.NetworkCheck", ontap: "networkSettings"}
 		]},
 		{name: "creditsPopup", kind: "Abcd.CreditsPopup"},		
+		{name: "networkPopup", kind: "Abcd.NetworkPopup", onNetworkChanged: "networkChanged"},		
 		{kind: "Signals", onEndOfSound: "endOfSound", onSoundTimeupdate: "soundTimeupdate"}
 	],
 	
@@ -43,6 +45,7 @@ enyo.kind({
 		}
 		this.playTheme();		
 		Abcd.context.object = null;
+		this.$.networkCheck.check();
 	},
 	
 	// Play theme
@@ -55,7 +58,6 @@ enyo.kind({
 	// Launch activities
 	learnGame: function(e, s) {
 		Abcd.sound.pause();
-		
 		Abcd.context.object = new Abcd.Learn().renderInto(document.getElementById("body"));
 	},
 	
@@ -67,6 +69,15 @@ enyo.kind({
 	// Display credits page
 	displayCredits: function(e, s) {
 		this.$.creditsPopup.show();
+	},
+	
+	// Handle: display network settings popup and handle change
+	networkSettings: function(e, s) {
+		this.$.networkPopup.display();
+	},
+	
+	networkChanged: function() {
+		this.$.networkCheck.check();
 	},
 	
 	// Sound ended, play next instrument

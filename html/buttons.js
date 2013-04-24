@@ -94,7 +94,7 @@ enyo.kind({
 });	
 
 
-// Collection component
+// Play type button
 enyo.kind({
 	name: "Abcd.PlayTypeButton",
 	published: { from: "", to: "", theme: null },

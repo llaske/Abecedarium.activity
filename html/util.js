@@ -7,6 +7,7 @@ Abcd = {};
 
 // Game context handling
 Abcd.context = {
+	database: "",
 	home: null,
 	object: null,
 	screen: "",
@@ -20,7 +21,7 @@ Abcd.saveContext = function() {
 	values.push(Abcd.context.lang);
 	values.push(Abcd.context.casevalue);
 	values.push(Abcd.context.object!=null?Abcd.context.object.saveContext():"");
-	Abcd.sugar.sendMessage("save-context", {context:values.join("#")});
+	Abcd.sugar.sendMessage("save-context", {context:values.join("#"), database:Abcd.context.database});
 };
 Abcd.loadContext = function(context) {
 	if (context == null || context == "" || !context.context)
@@ -31,6 +32,9 @@ Abcd.loadContext = function(context) {
 	Abcd.context.casevalue = values[2];
 	Abcd.context.screenContext = values[3];
 	Abcd.setLocale(Abcd.context.lang);
+	if (context.database) {
+		Abcd.context.database = context.database;
+	}
 };
 
 
@@ -62,6 +66,8 @@ Abcd.log = function(msg) {
 // Home handling
 Abcd.goHome = function() {
 	if (Abcd.context.home != null) {
+		if (Abcd.context.object == null)
+			return;
 		Abcd.context.screen = "";
 		Abcd.context.home.renderInto(document.getElementById("body"));
 		Abcd.context.home.playTheme();

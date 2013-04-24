@@ -163,6 +163,7 @@ class AbecedariumActivity(activity.Activity):
         file = open(self.file_path, 'w')
         try:
             file.write(context['context']+'\n')
+            file.write(context['database']+'\n')
         finally:
             file.close()
 
@@ -173,6 +174,7 @@ class AbecedariumActivity(activity.Activity):
         self.context = {}
         try:
             self.context['context'] = file.readline().strip('\n')
+            self.context['database'] = file.readline().strip('\n')
         finally:
             file.close()
 
