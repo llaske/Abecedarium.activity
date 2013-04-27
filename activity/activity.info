@@ -1,6 +1,6 @@
 [Activity]
 name = Abecedarium
-activity_version = 2
+activity_version = 3
 bundle_id = org.olpcfrance.Abecedarium
 exec = sugar-activity activity.AbecedariumActivity
 icon = activity-abecedarium
