@@ -69,27 +69,33 @@ enyo.kind({
 	classes: "switchLang",
 	components: [
 		{name: "switchToFrench", kind: "Image", src: "images/us.png", showing: false, classes: "switchLangButton", ontap: "localFrench"},
-		{name: "switchToEnglish", kind: "Image", src: "images/fr.png", classes: "switchLangButton", ontap: "localEnglish"}	
+		{name: "switchToSpanish", kind: "Image", src: "images/fr.png", classes: "switchLangButton", ontap: "localSpanish"},
+        {name: "switchToEnglish", kind: "Image", src: "images/es.png", showing: false, classes: "switchLangButton", ontap: "localEnglish"},
 	],
 	
 	// Constructor
 	rendered: function() {
 		this.inherited(arguments);
 		if (Abcd.context.lang == 'en')
-			Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: true});
+			Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: true, switchToSpanish: false});
 		else
-			Abcd.changeVisibility(this, {switchToEnglish: true, switchToFrench: false});
+			Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: false, switchToSpanish: true});
 	},
 	
 	// Change current language
 	localEnglish: function() {
-		Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: true});
+		Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: true, switchToSpanish: false});
 		Abcd.setLocale("en");
 	},
 	
 	localFrench: function() {
-		Abcd.changeVisibility(this, {switchToEnglish: true, switchToFrench: false});
+        Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: false, switchToSpanish: true});
 		Abcd.setLocale("fr");
+	},
+    
+    localSpanish: function() {
+        Abcd.changeVisibility(this, {switchToEnglish: true, switchToFrench: false, switchToSpanish: false});
+        Abcd.setLocale("es");
 	}
 });	
 

@@ -8,3 +8,4 @@ Abcd.context.database = "";
 
 // Internet database
 //Abcd.context.database = "http://laske.fr/abecedarium/";
+//Abcd.context.database = "http://schoolserver.nosykomba.org/share/abecedarium/";

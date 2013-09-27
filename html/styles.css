@@ -1,7 +1,7 @@
 ﻿
 @font-face {
-	font-family: Rochester;
-	src: url('Rochester-Regular.ttf');
+	font-family: Cursive;
+	src: url('Cursive-standard.ttf');
 }
 
 .logo {
@@ -174,7 +174,7 @@
 .entryText {
 	font-size:30px;
 	text-align: center;
-	padding: 5px;
+	padding: 3px;
 }
 
 .entryTextOnly {
@@ -190,8 +190,8 @@
 }
 
 .entryText2 {
-	font-size: 36px;
-	font-family: Rochester;
+	font-size: 30px;
+	font-family: Cursive;
 }
 
 .entrySoundIcon {
@@ -252,8 +252,8 @@
 }
 
 .collectionText2 {
-	font-size: 28px;
-	font-family: Rochester;
+	font-size: 26px;
+	font-family: Cursive;
 }
 
 .box-4-theme {
@@ -304,7 +304,7 @@
 
 .themeText2 {
 	font-size: 36px;
-	font-family: Rochester;
+	font-family: Cursive;
 }
 
 .themeColor-1 {
@@ -460,12 +460,12 @@
 	width: 60px;
 	height: 60px;
 	left: 1000px;
-	top: 540px;
+	top: 545px;
 }
 
 .credits-popup {
 	width: 880px;
-	height: 600px;
+	height: 640px;
 	color: black;
 }
 

@@ -40,14 +40,35 @@ Abcd.loadContext = function(context) {
 
 // Init Sugar interface
 Abcd.setLocale = function(lang) {
-	var texts = Abcd.enTexts;
-	if (lang == "fr")
-		texts = Abcd.frTexts;	
-	__$FC_l10n_set(texts);
+	var texts = Abcd.getTextsFromLocal(lang);
+    __$FC_l10n_set(texts);
 	Abcd.letters = Abcd[lang+"Letters"];
 	if (Abcd.context.object != null)
 		Abcd.context.object.setLocale();
 }
+
+Abcd.getTextsFromLocal = function(lang) {
+    switch (lang) {
+    case "fr":
+        return Abcd.frTexts;
+    case "es":
+        return Abcd.esTexts;
+    default:
+        return Abcd.enTexts;
+    }
+}
+
+Abcd.getLettersFromLocal = function(lang) {
+    switch (lang) {
+    case "fr":
+        return Abcd.frLetters;
+    case "es":
+        return Abcd.esLetters;
+    default:
+        return Abcd.enLetters;
+    }
+}
+
 Abcd.setCase = function(casevalue) {
 	Abcd.context.casevalue = casevalue;
 	if (Abcd.context.object != null)

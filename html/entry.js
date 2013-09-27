@@ -72,7 +72,7 @@ enyo.kind({
 			text = text.toUpperCase();
 			
 		// Get sound
-		if (this.soundonly) this.$.soundIcon.addClass("entrySoundIconOnly");		
+		if (this.soundonly) this.$.soundIcon.addClass("entrySoundIconOnly");			
 		if (entry[Abcd.context.lang]) {
 			this.sound = Abcd.context.database+"audio/"+Abcd.context.lang+"/database/"+entry.code;
 			this.$.soundIcon.setSrc("images/sound_off"+(this.soundonly?1:0)+".png");
