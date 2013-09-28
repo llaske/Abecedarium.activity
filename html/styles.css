@@ -1,6 +1,6 @@
 ﻿
 @font-face {
-	font-family: Cursive;
+	font-family: Cursive-standard;
 	src: url('Cursive-standard.ttf');
 }
 
@@ -191,7 +191,7 @@
 
 .entryText2 {
 	font-size: 30px;
-	font-family: Cursive;
+	font-family: Cursive-standard;
 }
 
 .entrySoundIcon {
@@ -253,7 +253,7 @@
 
 .collectionText2 {
 	font-size: 26px;
-	font-family: Cursive;
+	font-family: Cursive-standard;
 }
 
 .box-4-theme {
@@ -304,7 +304,7 @@
 
 .themeText2 {
 	font-size: 36px;
-	font-family: Cursive;
+	font-family: Cursive-standard;
 }
 
 .themeColor-1 {
