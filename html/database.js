@@ -1333,7 +1333,7 @@ Abcd.esTexts = [
 	"bathing_suit", "babero", "botón", "cap", "capa", "abrigo", "vestir", "guante", "sombrero", "heel", "casco", "chaqueta", 
 	"kimono", "nightgown", "pajamas", "panties", "pantalones", "parche", "bolsillo", "pompon", "jersey", "raincoat", "robe", "sandalias", 
 	"sash", "scarf", "camisa", "zapato", "shoelace", "corto", "falda", "manga", "slippers", "smock", "sneaker", "calcetín", 
-	"sole_shoe", "suit", "Sudadera", "uniforme", "chaleco", "zipper", "negro", "azul", "marrón", "color", "gris", "verde", 
+	"sole_shoe", "suit", "sudadera", "uniforme", "chaleco", "zipper", "negro", "azul", "marrón", "color", "gris", "verde", 
 	"mauve", "orange", "rosa", "rojo", "blanco", "amarillo", "banco", "granero", "dormitorio", "big_top", "puente", "cabin", 
 	"jaula", "castillo", "chimenea", "circo", "ciudad", "dam", "puerta", "fair", "granja", "faucet", "fountain", "garaje", 
 	"grave", "hogar", "hospital", "casa", "hut", "cocina", "carril", "faro", "merry-go-round", "molino", "mosque", "office", 
