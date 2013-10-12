@@ -8,7 +8,7 @@ Abecedarium has two parts:
 * Build: It will allow to build little stories combining images and sounds from the database.
 
 All words could be seen in upper case, lower case or script.
-Abecedarium could be use both in English (about 500 words in the database) and in French (about 1000 words in the database).
+Abecedarium could be use both in English (about 500 words in the database), in French (about 1000 words in the database) and in Spanish (about 600 words in the database).
 All contents come from the Art4apps library. See Credits page for more.
 
 

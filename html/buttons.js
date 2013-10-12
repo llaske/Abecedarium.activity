@@ -78,8 +78,10 @@ enyo.kind({
 		this.inherited(arguments);
 		if (Abcd.context.lang == 'en')
 			Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: true, switchToSpanish: false});
-		else
+		else if (Abcd.context.lang == 'fr')
 			Abcd.changeVisibility(this, {switchToEnglish: false, switchToFrench: false, switchToSpanish: true});
+		else
+			Abcd.changeVisibility(this, {switchToEnglish: true, switchToFrench: false, switchToSpanish: false});
 	},
 	
 	// Change current language
