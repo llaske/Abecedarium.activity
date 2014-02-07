@@ -1,8 +1,6 @@
 [Activity]
 name = Abecedarium
-activity_version = 4
+activity_version = 5
 bundle_id = org.olpcfrance.Abecedarium
-exec = sugar-activity activity.AbecedariumActivity
-icon = activity-abecedarium
-mime_types = application/x-abecedarium-activity;
-license = GPLv2+
+exec = sugar-activity-web
+icon = activity-icon

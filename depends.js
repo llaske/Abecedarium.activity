@@ -1,0 +1,19 @@
+﻿enyo.depends(
+	"util.js",
+	"database.js",
+	"config.js",
+	"network.js",
+	"l10n.js",
+	"audio.js",
+	"item.js",
+	"entry.js",
+	"collection.js",
+	"theme.js",
+	"letter.js",
+	"buttons.js",
+	"credits.js",
+	"filter.js",
+	"learn.js",
+	"play.js",
+	"app.js"
+);
