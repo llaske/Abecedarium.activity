@@ -31,10 +31,10 @@ enyo.kind({
 		this.inherited(arguments);
 		
 		// Handle init
-		if (this.hasNode() != null) {		
+		if (this.hasNode()) {		
 			// Handle sound ended event
 			var audio = this;
-			enyo.dispatcher.listen(audio.hasNode(), "ended", function() { 
+			enyo.dispatcher.listen(audio.hasNode(), "ended", function() {
 				audio.doSoundEnded();
 			});			
 			enyo.dispatcher.listen(audio.hasNode(), "timeupdate", function(s) { 
@@ -72,23 +72,57 @@ enyo.kind({
 	// Test if component could play a file type
 	canPlayType: function(typename) {
 		var node = this.hasNode();
-		if (node == null)
+		if (!node)
 			return false;
 		return node.canPlayType(typename);
 	},
 	
 	// Play audio
 	play: function() {
+		// HACK: HTML5 Audio don't work in PhoneGap on Android and iOS, use Media PhoneGap component instead
+		if ((enyo.platform.android || enyo.platform.androidChrome || enyo.platform.ios) && document.location.protocol.substr(0,4) != "http") {
+			// Compute full path
+			var database = Abcd.context.getDatabase();
+			var src = ((database.length == 0 || this.src.indexOf("database") == -1 ) ? location.pathname.substring(0,1+location.pathname.lastIndexOf('/'))+this.src : this.src);
+			var that = this;
+			if (this.media) {
+				this.media.src = "";
+				this.media.pause();
+				this.media.release();
+			}
+			
+			// Create the Media object
+			this.media = new Media(src, function() { }, function() { },
+				function(status) {
+					if (status == 4 && this.src != "") {
+						that.doSoundEnded();				
+					}
+				}
+			);
+			
+			// Play
+			this.media.play();
+			return;
+		}	
 		var node = this.hasNode();
-		if (node == null)
+		if (!node)
 			return;	
 		node.play();
 	},
 	
 	// Pause audio
 	pause: function() {
+		// HACK: HTML5 Audio don't work in PhoneGap on Android and iOS, use Media PhoneGap component instead
+		if ((enyo.platform.android || enyo.platform.androidChrome || enyo.platform.ios) && document.location.protocol.substr(0,4) != "http") {
+			if (!this.media)
+				return;				
+			this.media.src = "";
+			this.media.pause();
+			this.media.release();			
+			return;
+		}
 		var node = this.hasNode();
-		if (node == null)
+		if (!node)
 			return;		
 		node.pause();
 	},
@@ -96,7 +130,7 @@ enyo.kind({
 	// Test if audio is paused
 	paused: function() {
 		var node = this.hasNode();
-		if (node == null)
+		if (!node)
 			return false;		
 		return node.paused;
 	},
@@ -104,7 +138,7 @@ enyo.kind({
 	// Test if audio is ended
 	ended: function() {
 		var node = this.hasNode();
-		if (node == null)
+		if (!node)
 			return false;		
 		return node.ended;
 	}	
@@ -139,10 +173,7 @@ enyo.kind({
 	play: function(sound) {
 		if (this.format == null)
 			return;
-		if (enyo.platform.android) // HACK: PhoneGap don't handle local HTML5 sound
-			this.$.sound.setSrc("http://server.sugarizer.org/activities/Abecedarium.activity/"+sound+this.format);
-		else
-			this.$.sound.setSrc(sound+this.format);
+		this.$.sound.setSrc(sound+this.format);
 		this.timeStamp = new Date().getTime();
 		this.$.sound.play();
 	},
