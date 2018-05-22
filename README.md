@@ -52,3 +52,6 @@ Contains all music and sound files.
 Contains all images.
 
 
+# Contribution
+
+Abecedarium activity is now part of [Sugarizer](http://github.com/llaske/Sugarizer). This repository is no longer maintain. If you want to contribute, send PR directly in Sugarizer. 
